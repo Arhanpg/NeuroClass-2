@@ -2,7 +2,10 @@
 import { useEffect, useState, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
-import type { UserRole } from "@neuroclass/shared-types";
+import { ROLES } from "@/lib/constants";
+
+// Derive UserRole locally — avoids needing a separate @neuroclass/shared-types package
+export type UserRole = (typeof ROLES)[keyof typeof ROLES];
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
@@ -30,7 +33,7 @@ export function useAuth() {
     setUser(user ?? null);
     if (user) await fetchProfile(user.id);
     setLoading(false);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchProfile]);
 
   useEffect(() => {
@@ -43,7 +46,7 @@ export function useAuth() {
       else setRole(null);
     });
     return () => subscription.unsubscribe();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getUser]);
 
   return { user, role, loading, supabase };

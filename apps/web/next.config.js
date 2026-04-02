@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverComponentsExternalPackages: [],
-  },
+  // serverComponentsExternalPackages was promoted from experimental to
+  // top-level stable config in Next.js 14.1. Keeping it in experimental{}
+  // causes a build error on Vercel with Next 14.2.x.
+  serverExternalPackages: [],
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: '*.supabase.co' },
