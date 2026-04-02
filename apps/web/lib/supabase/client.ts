@@ -1,13 +1,12 @@
 import { createBrowserClient } from '@supabase/ssr';
 import type { Database } from './types';
 
-let client: ReturnType<typeof createBrowserClient<Database>> | null = null;
-
+// Always call createClient() directly — do NOT cache as a module-level singleton.
+// The singleton pattern causes TypeScript to infer ReturnType | null,
+// which makes all .from() table generics collapse to `never`.
 export function createClient() {
-  if (client) return client;
-  client = createBrowserClient<Database>(
+  return createBrowserClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
-  return client;
 }

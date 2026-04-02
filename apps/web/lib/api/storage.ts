@@ -1,12 +1,10 @@
-﻿import { createClient } from "@/lib/supabase/client";
-const supabase = createClient();
+import { createClient } from '@/lib/supabase/client';
 
-export async function uploadFile(bucket: string, path: string, file: File) {
-  const { data, error } = await supabase.storage.from(bucket).upload(path, file, { upsert: true });
-  if (error) throw error;
-  return data;
-}
+export const uploadFile = (bucket: string, path: string, file: File) =>
+  createClient().storage.from(bucket).upload(path, file, { upsert: true });
 
-export function getPublicUrl(bucket: string, path: string) {
-  return supabase.storage.from(bucket).getPublicUrl(path).data.publicUrl;
-}
+export const getPublicUrl = (bucket: string, path: string) =>
+  createClient().storage.from(bucket).getPublicUrl(path);
+
+export const deleteFile = (bucket: string, path: string) =>
+  createClient().storage.from(bucket).remove([path]);
