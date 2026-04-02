@@ -1,8 +1,36 @@
-﻿import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 
-export function LectureCard({ title, status }: { title: string; status: "embedded" | "processing" | "failed" }) {
+interface LectureCardProps {
+  id: string;
+  title: string;
+  description?: string;
+  courseSlug: string;
+  embeddingStatus?: string;
+}
+
+export function LectureCard({ id, title, description, courseSlug, embeddingStatus }: LectureCardProps) {
   return (
-    <Card><CardHeader><div className="flex justify-between"><CardTitle className="text-lg">{title}</CardTitle><Badge variant={status === "embedded" ? "success" : status === "processing" ? "warning" : "destructive"}>{status}</Badge></div></CardHeader></Card>
+    <Card className="hover:shadow-md transition-shadow">
+      <CardHeader>
+        <div className="flex items-start justify-between gap-2">
+          <CardTitle className="text-base">
+            <Link href={`/courses/${courseSlug}/lectures/${id}`} className="hover:underline">
+              {title}
+            </Link>
+          </CardTitle>
+          {embeddingStatus && (
+            <Badge
+              variant={embeddingStatus === "DONE" ? "default" : "secondary"}
+              className="shrink-0 text-xs"
+            >
+              {embeddingStatus}
+            </Badge>
+          )}
+        </div>
+        {description && <CardDescription>{description}</CardDescription>}
+      </CardHeader>
+    </Card>
   );
 }

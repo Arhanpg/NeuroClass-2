@@ -1,15 +1,40 @@
-﻿"use client";
+"use client";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { RubricValidator } from "./RubricValidator";
 
-export function RubricEditor() {
-  const [nlInput, setNlInput] = useState("");
-  const [jsonPreview, setJsonPreview] = useState("");
+interface RubricEditorProps {
+  initialJson?: string;
+  onChange?: (json: string) => void;
+}
+
+export function RubricEditor({ initialJson = "{}", onChange }: RubricEditorProps) {
+  const [value, setValue] = useState(initialJson);
+  const [_jsonPreview, setJsonPreview] = useState<object | null>(null);
+
+  const handleChange = (v: string) => {
+    setValue(v);
+    try {
+      const parsed = JSON.parse(v);
+      setJsonPreview(parsed);
+      onChange?.(v);
+    } catch {
+      // invalid JSON — ignore preview update
+    }
+  };
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <div><h3 className="font-semibold mb-2">Natural Language Input</h3><Textarea value={nlInput} onChange={(e) => setNlInput(e.target.value)} placeholder="Describe your rubric criteria..." rows={12} /></div>
-      <div><h3 className="font-semibold mb-2">JSON Preview</h3><pre className="p-4 rounded-lg bg-gray-950 text-green-400 text-sm overflow-auto h-72">{jsonPreview || "// Rubric JSON will appear here"}</pre><RubricValidator json={jsonPreview} /></div>
+    <div className="space-y-2">
+      <Textarea
+        value={value}
+        onChange={(e) => handleChange(e.target.value)}
+        rows={12}
+        className="font-mono text-sm"
+        placeholder="Enter rubric JSON..."
+      />
+      <Button variant="outline" size="sm" onClick={() => handleChange(JSON.stringify(JSON.parse(value), null, 2))}>
+        Format JSON
+      </Button>
     </div>
   );
 }

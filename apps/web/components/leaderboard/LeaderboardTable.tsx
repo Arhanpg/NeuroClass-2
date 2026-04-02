@@ -1,13 +1,39 @@
-﻿"use client";
-import { RankBadge } from "./RankBadge";
+"use client";
+import { useLeaderboard } from "@/lib/hooks/useLeaderboard";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 
-export function LeaderboardTable({ courseId }: { courseId: string }) {
-  const mockData = [{ rank: 1, name: "Alice", score: 98 }, { rank: 2, name: "Bob", score: 95 }];
+interface LeaderboardTableProps {
+  courseId: string;
+}
+
+export function LeaderboardTable({ courseId: _courseId }: LeaderboardTableProps) {
+  const { entries, loading } = useLeaderboard();
+
+  if (loading) return <div className="skeleton h-48 rounded-md" />;
+
   return (
-    <div className="space-y-2">{mockData.map((entry) => (
-      <div key={entry.rank} className="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-gray-900 border hover:shadow transition-shadow">
-        <RankBadge rank={entry.rank} /><span className="flex-1 font-medium">{entry.name}</span><span className="font-bold text-brand-500">{entry.score}</span>
-      </div>
-    ))}</div>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-12">#</TableHead>
+          <TableHead>Student</TableHead>
+          <TableHead className="text-right">Score</TableHead>
+          <TableHead className="text-right">Rank</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {entries.map((entry, i) => (
+          <TableRow key={entry.userId}>
+            <TableCell className="font-mono tabular-nums">{i + 1}</TableCell>
+            <TableCell>{entry.displayName}</TableCell>
+            <TableCell className="text-right tabular-nums">{entry.totalScore}</TableCell>
+            <TableCell className="text-right">
+              <Badge variant="secondary">{entry.rank}</Badge>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 }

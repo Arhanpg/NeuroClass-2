@@ -1,13 +1,31 @@
-﻿import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 
-interface CourseCardProps { id: string; title: string; description: string; pedagogy: string; studentCount?: number; }
+interface CourseCardProps {
+  id: string;
+  title: string;
+  description: string;
+  slug: string;
+  enrolledCount?: number;
+}
 
-export function CourseCard({ id, title, description, pedagogy, studentCount }: CourseCardProps) {
+export function CourseCard({ id: _id, title, description, slug, enrolledCount }: CourseCardProps) {
   return (
-    <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-      <CardHeader><div className="flex justify-between items-start"><CardTitle>{title}</CardTitle><Badge variant="secondary">{pedagogy}</Badge></div></CardHeader>
-      <CardContent><p className="text-sm text-gray-500">{description}</p>{studentCount !== undefined && <p className="text-xs text-gray-400 mt-2">{studentCount} students</p>}</CardContent>
+    <Card className="hover:shadow-md transition-shadow">
+      <CardHeader>
+        <CardTitle>
+          <Link href={`/courses/${slug}`} className="hover:underline">
+            {title}
+          </Link>
+        </CardTitle>
+        <CardDescription>{description}</CardDescription>
+      </CardHeader>
+      <CardFooter>
+        {enrolledCount !== undefined && (
+          <Badge variant="secondary">{enrolledCount} students</Badge>
+        )}
+      </CardFooter>
     </Card>
   );
 }

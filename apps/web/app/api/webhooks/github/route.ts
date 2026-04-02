@@ -1,13 +1,7 @@
-﻿import { NextResponse, type NextRequest } from "next/server";
-import crypto from "crypto";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
-  const payload = await request.text();
-  const signature = request.headers.get("x-hub-signature-256");
-  const secret = process.env.GITHUB_WEBHOOK_SECRET!;
-  const expected = `sha256=${crypto.createHmac("sha256", secret).update(payload).digest("hex")}`;
-  if (signature !== expected) return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
-  const event = JSON.parse(payload);
-  // Process push event â€” store commits for PCS
+export async function POST(req: NextRequest) {
+  const _event = req.headers.get("x-github-event");
+  // TODO: Phase 2 — handle GitHub webhook events for repo sync
   return NextResponse.json({ received: true });
 }

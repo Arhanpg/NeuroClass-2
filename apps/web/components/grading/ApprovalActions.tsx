@@ -1,11 +1,21 @@
-﻿import { Button } from "@/components/ui/button";
+"use client";
+import { Button } from "@/components/ui/button";
 
-export function ApprovalActions({ gradeId }: { gradeId: string }) {
+interface ApprovalActionsProps {
+  gradeId: string;
+  onApprove: () => void;
+  onReject: () => void;
+}
+
+export function ApprovalActions({ gradeId: _gradeId, onApprove, onReject }: ApprovalActionsProps) {
   return (
-    <div className="flex gap-3">
-      <Button className="bg-green-600 hover:bg-green-700">âœ“ Approve</Button>
-      <Button variant="outline">âœŽ Override</Button>
-      <Button variant="destructive">âœ• Reject</Button>
+    <div className="flex gap-2">
+      <Button onClick={onApprove} variant="default" size="sm">
+        Approve
+      </Button>
+      <Button onClick={onReject} variant="destructive" size="sm">
+        Reject
+      </Button>
     </div>
   );
 }
