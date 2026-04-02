@@ -1,6 +1,14 @@
-﻿/** @type {import('next').NextConfig} */
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: { remotePatterns: [{ protocol: "https", hostname: "**.supabase.co" }] },
-  experimental: { serverActions: { bodySizeLimit: "10mb" } },
+  experimental: {
+    serverComponentsExternalPackages: [],
+  },
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: '*.supabase.co' },
+      { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
+    ],
+  },
 };
+
 module.exports = nextConfig;
