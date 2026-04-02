@@ -1,55 +1,25 @@
-import { createServerClient as _createServerClient, type CookieOptions } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { createClient as _createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
+/**
+ * Server-side Supabase client (Server Components, Route Handlers, Server Actions).
+ * Uses service role key for privileged operations.
+ * Only import this in server-only files (app/ directory, route handlers).
+ */
 export async function createServerClient() {
-  const cookieStore = await cookies();
-
-  return _createServerClient<Database>(
+  return _createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-        set(name: string, value: string, options: CookieOptions) {
-          try {
-            cookieStore.set({ name, value, ...options });
-          } catch {}
-        },
-        remove(name: string, options: CookieOptions) {
-          try {
-            cookieStore.set({ name, value: '', ...options });
-          } catch {}
-        },
-      },
-    }
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 }
 
+/**
+ * Service-role client — bypasses Row Level Security.
+ * Use ONLY in trusted server-side code (webhooks, admin routes).
+ */
 export async function createServiceClient() {
-  const cookieStore = await cookies();
-
-  return _createServerClient<Database>(
+  return _createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-        set(name: string, value: string, options: CookieOptions) {
-          try {
-            cookieStore.set({ name, value, ...options });
-          } catch {}
-        },
-        remove(name: string, options: CookieOptions) {
-          try {
-            cookieStore.set({ name, value: '', ...options });
-          } catch {}
-        },
-      },
-    }
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 }
