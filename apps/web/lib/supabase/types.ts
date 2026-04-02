@@ -37,6 +37,7 @@ export type Database = {
           role?: 'INSTRUCTOR' | 'TEACHING_ASSISTANT' | 'STUDENT' | 'ADMIN';
           updated_at?: string;
         };
+        Relationships: [];
       };
       courses: {
         Row: {
@@ -65,6 +66,15 @@ export type Database = {
           is_active?: boolean;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'courses_instructor_id_fkey';
+            columns: ['instructor_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          }
+        ];
       };
       lectures: {
         Row: {
@@ -89,6 +99,15 @@ export type Database = {
           order_index?: number;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'lectures_course_id_fkey';
+            columns: ['course_id'];
+            isOneToOne: false;
+            referencedRelation: 'courses';
+            referencedColumns: ['id'];
+          }
+        ];
       };
       projects: {
         Row: {
@@ -116,6 +135,15 @@ export type Database = {
           max_score?: number;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'projects_course_id_fkey';
+            columns: ['course_id'];
+            isOneToOne: false;
+            referencedRelation: 'courses';
+            referencedColumns: ['id'];
+          }
+        ];
       };
       grades: {
         Row: {
@@ -142,10 +170,27 @@ export type Database = {
           status?: string;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'grades_project_id_fkey';
+            columns: ['project_id'];
+            isOneToOne: false;
+            referencedRelation: 'projects';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'grades_student_id_fkey';
+            columns: ['student_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          }
+        ];
       };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
     Enums: Record<string, never>;
+    CompositeTypes: Record<string, never>;
   };
 };
