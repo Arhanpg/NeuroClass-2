@@ -1,5 +1,6 @@
-// Stub types for Phase 0 — replace with:
-// supabase gen types typescript --project-id <ref> > lib/supabase/types.ts
+// Auto-generated stub for Phase 0.
+// Replace with the real generated types after linking Supabase:
+//   supabase gen types typescript --project-id <ref> > apps/web/lib/supabase/types.ts
 
 export type Json =
   | string
@@ -181,6 +182,74 @@ export type Database = {
           {
             foreignKeyName: 'grades_student_id_fkey';
             columns: ['student_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          }
+        ];
+      };
+      leaderboard_entries: {
+        Row: {
+          id: string;
+          course_id: string;
+          student_id: string;
+          points: number;
+          rank: number | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          course_id: string;
+          student_id: string;
+          points?: number;
+          rank?: number | null;
+        };
+        Update: {
+          points?: number;
+          rank?: number | null;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'leaderboard_entries_course_id_fkey';
+            columns: ['course_id'];
+            isOneToOne: false;
+            referencedRelation: 'courses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'leaderboard_entries_student_id_fkey';
+            columns: ['student_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          }
+        ];
+      };
+      notifications: {
+        Row: {
+          id: string;
+          user_id: string;
+          title: string;
+          body: string;
+          read: boolean;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          title: string;
+          body: string;
+          read?: boolean;
+        };
+        Update: {
+          read?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'notifications_user_id_fkey';
+            columns: ['user_id'];
             isOneToOne: false;
             referencedRelation: 'profiles';
             referencedColumns: ['id'];
