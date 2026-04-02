@@ -24,10 +24,10 @@ export function LeaderboardTable({ courseId: _courseId }: LeaderboardTableProps)
       </TableHeader>
       <TableBody>
         {entries.map((entry, i) => (
-          <TableRow key={entry.userId}>
+          <TableRow key={entry.student_id}>
             <TableCell className="font-mono tabular-nums">{i + 1}</TableCell>
-            <TableCell>{entry.displayName}</TableCell>
-            <TableCell className="text-right tabular-nums">{entry.totalScore}</TableCell>
+            <TableCell>{entry.student_id}</TableCell>
+            <TableCell className="text-right tabular-nums">{entry.points}</TableCell>
             <TableCell className="text-right">
               <Badge variant="secondary">{entry.rank}</Badge>
             </TableCell>

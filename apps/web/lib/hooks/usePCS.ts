@@ -23,18 +23,18 @@ export function usePCS(courseId: string) {
     const fetchPCS = async () => {
       const { data: pcsData } = await supabase
         .from("leaderboard_entries")
-        .select("user_id, course_id, total_score, rank")
+        .select("student_id, course_id, points, rank")
         .eq("course_id", courseId)
-        .order("total_score", { ascending: false });
+        .order("points", { ascending: false });
 
       if (pcsData && pcsData.length > 0) {
-        const allScores = pcsData.map((r) => r.total_score as number);
+        const allScores = pcsData.map((r) => r.points as number);
         _setScores(allScores);
         const topEntry = pcsData[0];
         setData({
-          userId: topEntry.user_id as string,
+          userId: topEntry.student_id as string,
           courseId: topEntry.course_id as string,
-          score: topEntry.total_score as number,
+          score: topEntry.points as number,
           percentile: 100,
         });
       }
