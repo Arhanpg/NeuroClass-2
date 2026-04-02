@@ -1,4 +1,4 @@
-﻿// Edge Function: trigger Python RAG pipeline
+// Edge Function: trigger Python RAG pipeline
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
 
 serve(async (req: Request) => {

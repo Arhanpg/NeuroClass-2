@@ -1,4 +1,4 @@
-﻿CREATE TABLE public.audit_log (
+CREATE TABLE public.audit_log (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   actor_id UUID REFERENCES public.profiles(id),
   action TEXT NOT NULL,

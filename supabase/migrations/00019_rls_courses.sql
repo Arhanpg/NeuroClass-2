@@ -1,4 +1,4 @@
-﻿ALTER TABLE public.courses ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.courses ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Anyone can view courses" ON public.courses FOR SELECT USING (true);
 CREATE POLICY "Instructors can create courses" ON public.courses FOR INSERT WITH CHECK (

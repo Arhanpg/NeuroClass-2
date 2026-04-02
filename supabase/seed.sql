@@ -1,4 +1,4 @@
-﻿-- Dev seed data for NeuroClass
+-- Dev seed data for NeuroClass
 -- Test users
 INSERT INTO auth.users (id, email, raw_user_meta_data) VALUES
   ('00000000-0000-0000-0000-000000000001', 'instructor@test.com', '{"full_name": "Dr. Smith"}'),

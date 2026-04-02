@@ -1,4 +1,4 @@
-﻿-- pgvector table for lecture content embeddings
+-- pgvector table for lecture content embeddings
 CREATE TABLE public.lecture_chunks (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   lecture_id UUID NOT NULL REFERENCES public.lectures(id) ON DELETE CASCADE,

@@ -1,4 +1,4 @@
-﻿CREATE TABLE public.commit_logs (
+CREATE TABLE public.commit_logs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   project_id UUID NOT NULL REFERENCES public.projects(id) ON DELETE CASCADE,
   team_id UUID REFERENCES public.teams(id),

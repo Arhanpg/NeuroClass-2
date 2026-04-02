@@ -1,4 +1,4 @@
-﻿ALTER TABLE public.grades ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.grades ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.released_grades ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Students can view own grades" ON public.released_grades FOR SELECT USING (student_id = auth.uid());

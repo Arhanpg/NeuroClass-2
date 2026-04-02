@@ -1,4 +1,4 @@
-﻿-- RPC function for pgvector cosine similarity search
+-- RPC function for pgvector cosine similarity search
 CREATE OR REPLACE FUNCTION public.match_lecture_chunks(
   query_embedding extensions.vector(768),
   match_count INT DEFAULT 5,

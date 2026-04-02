@@ -1,4 +1,4 @@
-﻿CREATE TABLE public.leaderboard (
+CREATE TABLE public.leaderboard (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   course_id UUID NOT NULL REFERENCES public.courses(id),
   user_id UUID NOT NULL REFERENCES public.profiles(id),

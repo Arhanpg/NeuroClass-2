@@ -1,4 +1,4 @@
-﻿-- Storage bucket policies
+-- Storage bucket policies
 -- Lecture files: instructors can upload, enrolled students can read
 -- Submissions: students can upload to their own path, instructors can read
 

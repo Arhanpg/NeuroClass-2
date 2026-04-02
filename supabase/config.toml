@@ -1,5 +1,4 @@
-﻿[project]
-id = "neuroclass-local"
+project_id = "neuroclass-local"
 
 [api]
 port = 54321
@@ -8,7 +7,7 @@ extra_search_path = ["public", "extensions"]
 
 [db]
 port = 54322
-major_version = 15
+major_version = 17
 
 [studio]
 port = 54323

@@ -1,4 +1,4 @@
-﻿CREATE TABLE public.interactions (
+CREATE TABLE public.interactions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES public.profiles(id),
   course_id UUID NOT NULL REFERENCES public.courses(id),

@@ -1,4 +1,4 @@
-﻿-- Student-visible grades (only populated after approval)
+-- Student-visible grades (only populated after approval)
 CREATE TABLE public.released_grades (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   grade_id UUID NOT NULL UNIQUE REFERENCES public.grades(id),

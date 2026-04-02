@@ -1,4 +1,4 @@
-﻿CREATE TABLE public.rubrics (
+CREATE TABLE public.rubrics (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   course_id UUID NOT NULL REFERENCES public.courses(id),
   project_id UUID NOT NULL REFERENCES public.projects(id),

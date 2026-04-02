@@ -1,4 +1,4 @@
-﻿CREATE TABLE public.grades (
+CREATE TABLE public.grades (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   student_id UUID NOT NULL REFERENCES public.profiles(id),
   project_id UUID NOT NULL REFERENCES public.projects(id),
