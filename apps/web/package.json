@@ -13,6 +13,7 @@
     "next": "14.2.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "@neuroclass/shared-types": "workspace:*",
     "@supabase/supabase-js": "^2.43.1",
     "@supabase/ssr": "^0.3.0",
     "@supabase/realtime-js": "^2.9.7",

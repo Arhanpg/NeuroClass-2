@@ -1,7 +1,15 @@
-﻿{
+{
   "name": "@neuroclass/shared-types",
   "version": "0.1.0",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
-  "scripts": { "lint": "tsc --noEmit" }
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "lint": "tsc --noEmit"
+  }
 }
