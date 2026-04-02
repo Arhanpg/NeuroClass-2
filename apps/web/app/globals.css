@@ -1,0 +1,9 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root { --background: 0 0% 100%; --foreground: 222 47% 11%; --brand: 230 86% 60%; }
+  .dark { --background: 222 47% 6%; --foreground: 0 0% 98%; }
+  body { @apply bg-background text-foreground font-sans antialiased; }
+}

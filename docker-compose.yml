@@ -1,0 +1,21 @@
+﻿version: "3.8"
+services:
+  supabase-db:
+    image: supabase/postgres:15.1.0.147
+    ports: ["54322:5432"]
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes: ["db-data:/var/lib/postgresql/data"]
+  supabase-studio:
+    image: supabase/studio:20240101
+    ports: ["54323:3000"]
+    environment:
+      STUDIO_PG_META_URL: http://supabase-meta:8080
+      SUPABASE_URL: http://supabase-kong:8000
+  ai-service:
+    build: ./apps/ai-service
+    ports: ["8080:8080"]
+    env_file: ./apps/ai-service/.env
+volumes:
+  db-data:
