@@ -6,16 +6,19 @@ type GradeInsert = Database['public']['Tables']['grades']['Insert'];
 type GradeUpdate = Database['public']['Tables']['grades']['Update'];
 
 export const getGradesByProject = (projectId: string) =>
-  createClient().from<'grades', GradeRow>('grades').select('*').eq('project_id', projectId);
+  createClient().from('grades').select('*').eq('project_id', projectId);
 
 export const getGradesByStudent = (studentId: string) =>
-  createClient().from<'grades', GradeRow>('grades').select('*').eq('student_id', studentId);
+  createClient().from('grades').select('*').eq('student_id', studentId);
 
 export const getGradeById = (id: string) =>
-  createClient().from<'grades', GradeRow>('grades').select('*').eq('id', id).single();
+  createClient().from('grades').select('*').eq('id', id).single();
 
 export const createGrade = (grade: GradeInsert) =>
-  createClient().from<'grades', GradeRow>('grades').insert(grade).select().single();
+  createClient().from('grades').insert(grade).select().single();
 
 export const updateGrade = (id: string, updates: GradeUpdate) =>
-  createClient().from<'grades', GradeRow>('grades').update(updates).eq('id', id);
+  createClient().from('grades').update(updates).eq('id', id);
+
+// Re-export row type for use in components
+export type { GradeRow, GradeInsert, GradeUpdate };
