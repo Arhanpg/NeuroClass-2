@@ -1,11 +1,14 @@
-import { createBrowserClient } from '@supabase/ssr';
+import { createClient as _createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-// Always call createClient() directly — do NOT cache as a module-level singleton.
-// The singleton pattern causes TypeScript to infer ReturnType | null,
-// which makes all .from() table generics collapse to `never`.
+/**
+ * Browser-safe Supabase client.
+ * Uses @supabase/supabase-js directly so the Database generic
+ * is always correctly inferred by TypeScript in all call sites.
+ * Call this inside components/hooks/api functions — never at module level.
+ */
 export function createClient() {
-  return createBrowserClient<Database>(
+  return _createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
