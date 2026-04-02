@@ -1,44 +1,74 @@
-# Dependencies
+# ── Dependencies ──────────────────────────────────────────
 node_modules/
 .pnpm-store/
+.yarn/
 
-# Environment variables
+# ── Environment variables ─────────────────────────────────
 .env
 .env.local
 .env.*.local
 !.env.example
 
-# Build outputs
+# ── Build outputs ─────────────────────────────────────────
 .next/
 out/
 dist/
 build/
 .turbo/
+*.tsbuildinfo
+next-env.d.ts
 
-# Python
+# ── Package manager artifacts ─────────────────────────────
+package-lock.json
+yarn.lock
+
+# ── Python / AI service ───────────────────────────────────
 __pycache__/
 *.py[cod]
+*.pyo
 .venv/
 venv/
+env/
 *.egg-info/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
-# IDE
+# ── IDE ───────────────────────────────────────────────────
 .vscode/
 .idea/
 *.swp
 *.swo
+*.sublime-project
+*.sublime-workspace
 
-# OS
+# ── OS ────────────────────────────────────────────────────
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
 Thumbs.db
+desktop.ini
 
-# Logs
+# ── Logs ──────────────────────────────────────────────────
 *.log
 npm-debug.log*
 pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Testing
+# ── Testing ───────────────────────────────────────────────
 coverage/
+.nyc_output/
 
-# Supabase
+# ── Supabase ──────────────────────────────────────────────
 supabase/.temp/
+
+# ── Vercel ────────────────────────────────────────────────
+.vercel/
+
+# ── Misc ──────────────────────────────────────────────────
+*.pem
+*.key
