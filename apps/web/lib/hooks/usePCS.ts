@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 interface PCSEntry {
@@ -13,12 +13,15 @@ export function usePCS(courseId: string) {
   const [data, setData] = useState<PCSEntry | null>(null);
   const [loading, setLoading] = useState(true);
   const [_scores, _setScores] = useState<number[]>([]);
-  const _supabase = createClient();
+  // Keep a stable ref to the supabase client so it never triggers re-renders
+  const supabaseRef = useRef(createClient());
 
   useEffect(() => {
     if (!courseId) return;
+    const supabase = supabaseRef.current;
+
     const fetchPCS = async () => {
-      const { data: pcsData } = await _supabase
+      const { data: pcsData } = await supabase
         .from("leaderboard_entries")
         .select("user_id, course_id, total_score, rank")
         .eq("course_id", courseId)
@@ -37,6 +40,7 @@ export function usePCS(courseId: string) {
       }
       setLoading(false);
     };
+
     fetchPCS();
   }, [courseId]);
 
