@@ -8,17 +8,24 @@ jobs:
   deploy:
     name: Deploy to Vercel
     runs-on: ubuntu-latest
+    # Only run when Vercel secrets are configured
+    if: ${{ vars.VERCEL_CONFIGURED == 'true' }}
     environment: production
     steps:
       - uses: actions/checkout@v4
+
       - uses: pnpm/action-setup@v3
         with:
           version: 9
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
       - name: Deploy to Vercel
         run: |
           npx vercel --token=${{ secrets.VERCEL_TOKEN }} \
