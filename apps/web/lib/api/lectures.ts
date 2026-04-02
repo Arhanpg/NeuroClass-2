@@ -1,12 +1,13 @@
-﻿import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/client";
+import type { Database } from "@/lib/supabase/types";
 
 const supabase = createClient();
 
-export async function uploadLecture(courseId: string, file: File) {
-  const path = `lectures/${courseId}/${file.name}`;
-  const { data, error } = await supabase.storage.from("lecture-files").upload(path, file);
-  if (error) throw error;
-  // Trigger ingestion
-  await fetch(`/api/courses/${courseId}/ingest`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ fileUrl: data.path, fileName: file.name }) });
-  return data;
-}
+type LectureInsert = Database['public']['Tables']['lectures']['Insert'];
+type LectureUpdate = Database['public']['Tables']['lectures']['Update'];
+
+export const getLectures = (courseId: string) => supabase.from("lectures").select("*").eq("course_id", courseId).order("order_index");
+export const getLectureById = (id: string) => supabase.from("lectures").select("*").eq("id", id).single();
+export const createLecture = (lecture: LectureInsert) => supabase.from("lectures").insert(lecture).select().single();
+export const updateLecture = (id: string, updates: LectureUpdate) => supabase.from("lectures").update(updates).eq("id", id);
+export const deleteLecture = (id: string) => supabase.from("lectures").delete().eq("id", id);

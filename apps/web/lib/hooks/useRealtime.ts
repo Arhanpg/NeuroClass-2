@@ -1,19 +1,27 @@
-﻿"use client";
-import { useEffect, useState } from "react";
+"use client";
+import { useEffect, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 
-export function useRealtime<T>(table: string, filter?: string) {
-  const [data, setData] = useState<T[]>([]);
+export function useRealtime(channel: string, callback: (payload: unknown) => void) {
   const supabase = createClient();
+  const channelRef = useRef<RealtimeChannel | null>(null);
+  const callbackRef = useRef(callback);
+  callbackRef.current = callback;
 
   useEffect(() => {
-    const channel: RealtimeChannel = supabase.channel(`${table}_changes`)
-      .on("postgres_changes", { event: "*", schema: "public", table, filter }, (payload) => {
-        setData((prev) => [...prev, payload.new as T]);
-      }).subscribe();
-    return () => { supabase.removeChannel(channel); };
-  }, [table, filter]);
+    channelRef.current = supabase
+      .channel(channel)
+      .on('postgres_changes' as never, { event: '*', schema: 'public' }, (payload) => {
+        callbackRef.current(payload);
+      })
+      .subscribe();
 
-  return data;
+    return () => {
+      if (channelRef.current) {
+        supabase.removeChannel(channelRef.current);
+      }
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [channel]);
 }

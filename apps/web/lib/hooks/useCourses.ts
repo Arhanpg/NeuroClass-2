@@ -1,16 +1,26 @@
-﻿"use client";
-import { useState, useEffect } from "react";
+"use client";
+import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import type { Database } from "@/lib/supabase/types";
+
+type Course = Database['public']['Tables']['courses']['Row'];
 
 export function useCourses() {
-  const [courses, setCourses] = useState<any[]>([]);
+  const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const supabase = createClient();
 
-  useEffect(() => { supabase.from("courses").select("*").then(({ data }) => { setCourses(data ?? []); setLoading(false); }); }, []);
+  useEffect(() => {
+    const fetchCourses = async () => {
+      const { data, error } = await supabase.from('courses').select('*');
+      if (error) setError(error.message);
+      else setCourses(data ?? []);
+      setLoading(false);
+    };
+    fetchCourses();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const createCourse = async (course: any) => { const { data, error } = await supabase.from("courses").insert(course).select().single(); return { data, error }; };
-  const enrollByCode = async (joinCode: string) => { /* lookup course by join_code then insert enrollment */ };
-
-  return { courses, loading, createCourse, enrollByCode };
+  return { courses, loading, error };
 }
